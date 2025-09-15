@@ -31,7 +31,7 @@ export const eventService = {
     const newEvent = await eventRepository.create({
       description,
       watchlistId,
-      severity: aiData.severity ?? "MED",
+      severity: aiData.severity,
       suggestion: aiData.suggestion ?? "Revisar manualmente",
     });
 
