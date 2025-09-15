@@ -77,6 +77,8 @@ export default function Home() {
               description={event.description}
               severity={event.severity}
               suggestion={event.suggestion}
+              onDeleted={() => fetchData()}
+              onUpdated={() => fetchData()}
             />
           ))}
           {paginatedEvents.length === 0 && <p>No hay eventos</p>}
@@ -111,7 +113,15 @@ export default function Home() {
 
         <div className="grid gap-4">
           {paginatedWatchlists.map((wl) => (
-            <WatchlistCard key={wl.id} id={wl.id} name={wl.name} terms={wl.terms} />
+            <WatchlistCard
+              key={wl.id}
+              id={wl.id}
+              name={wl.name}
+              terms={wl.terms}
+              onDeleted={() => fetchData()}
+              onUpdated={() => fetchData()}
+            />
+
           ))}
           {paginatedWatchlists.length === 0 && <p>No hay watchlists</p>}
         </div>
