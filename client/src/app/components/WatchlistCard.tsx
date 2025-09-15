@@ -1,53 +1,45 @@
+"use client";
+
 import React, { useState } from "react";
 import { watchlistService } from "@/app/services/watchlistService";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import { getErrorMessage } from "../lib/getErrorMessage";
+
+interface WatchlistCardProps {
+  id: number;
+  name: string;
+  onDeleted?: () => void;
+  onUpdated?: () => void;
+}
 
 const WatchlistCard: React.FC<WatchlistCardProps> = ({
   id,
   name,
-  terms,
   onDeleted,
   onUpdated,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [currentName, setCurrentName] = useState(name);
-  const [currentTerms, setCurrentTerms] = useState(terms.join(", "));
+  const [newName, setNewName] = useState(name);
 
   const handleDelete = async () => {
     if (!confirm("¿Seguro que quieres eliminar esta watchlist?")) return;
-
     try {
       await watchlistService.delete(id);
-      toast.success("Watchlist eliminada correctamente");
+      toast.success("Watchlist eliminada");
       onDeleted?.();
-    } catch (err: any) {
-      const msg = err.message || "";
-      if (msg.includes("Foreign key constraint")) {
-        toast.error("No se puede eliminar la watchlist: primero elimina sus eventos asociados.");
-      } else {
-        toast.error("Error al eliminar: " + msg);
-      }
+    } catch (err: unknown) {
+      toast.error(getErrorMessage(err));
     }
-
   };
-
 
   const handleSave = async () => {
     try {
-      await watchlistService.update(id, {
-        name: currentName,
-        terms: currentTerms.split(",").map(t => t.trim()),
-      });
-      toast.success("Watchlist actualizada correctamente");
-      onUpdated?.();
+      await watchlistService.update(id, { name: newName });
+      toast.success("Watchlist actualizada");
       setIsEditing(false);
+      onUpdated?.();
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error("Error al actualizar: " + err.message);
-      } else {
-        toast.error("Error desconocido al actualizar");
-      }
-
+      toast.error(getErrorMessage(err));
     }
   };
 
@@ -57,13 +49,8 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
         <>
           <input
             className="border p-1 rounded"
-            value={currentName}
-            onChange={(e) => setCurrentName(e.target.value)}
-          />
-          <input
-            className="border p-1 rounded"
-            value={currentTerms}
-            onChange={(e) => setCurrentTerms(e.target.value)}
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
           />
           <div className="flex gap-2 mt-2">
             <button
@@ -73,11 +60,7 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
               Guardar
             </button>
             <button
-              onClick={() => {
-                setIsEditing(false);
-                setCurrentName(name);
-                setCurrentTerms(terms.join(", "));
-              }}
+              onClick={() => setIsEditing(false)}
               className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500"
             >
               Cancelar
@@ -86,10 +69,7 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
         </>
       ) : (
         <>
-          <p><strong>{currentName}</strong></p>
-          <ul>
-            {currentTerms.split(",").map((t, i) => <li key={i}>{t.trim()}</li>)}
-          </ul>
+          <p><strong>Nombre:</strong> {newName}</p>
           <div className="flex gap-2 mt-2">
             <button
               onClick={handleDelete}
