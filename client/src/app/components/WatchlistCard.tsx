@@ -13,19 +13,24 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(name);
+  const [loading, setLoading] = useState(false);  
 
   const handleDelete = async () => {
     if (!confirm("¿Seguro que quieres eliminar esta watchlist?")) return;
+    setLoading(true);  
     try {
       await watchlistService.delete(id);
       toast.success("Watchlist eliminada");
       onDeleted?.();
     } catch (err: unknown) {
       toast.error(getErrorMessage(err));
+    } finally {
+      setLoading(false);  
     }
   };
 
   const handleSave = async () => {
+    setLoading(true);  
     try {
       await watchlistService.update(id, { name: newName });
       toast.success("Watchlist actualizada");
@@ -33,6 +38,8 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
       onUpdated?.();
     } catch (err: unknown) {
       toast.error(getErrorMessage(err));
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -48,13 +55,15 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
           <div className="flex gap-2 mt-2">
             <button
               onClick={handleSave}
-              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 disabled:opacity-50"
+              disabled={loading} 
             >
-              Guardar
+              {loading ? "Guardando..." : "Guardar"}
             </button>
             <button
               onClick={() => setIsEditing(false)}
               className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500"
+              disabled={loading} 
             >
               Cancelar
             </button>
@@ -66,13 +75,15 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
           <div className="flex gap-2 mt-2">
             <button
               onClick={handleDelete}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:opacity-50"
+              disabled={loading}  
             >
-              Eliminar
+              {loading ? "Eliminando..." : "Eliminar"}
             </button>
             <button
               onClick={() => setIsEditing(true)}
               className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+              disabled={loading}  
             >
               Editar
             </button>
@@ -82,5 +93,4 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
     </div>
   );
 };
-
 export default WatchlistCard;
