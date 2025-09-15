@@ -8,6 +8,7 @@ import { getErrorMessage } from "../lib/getErrorMessage";
 interface WatchlistCardProps {
   id: number;
   name: string;
+  terms: string[];
   onDeleted?: () => void;
   onUpdated?: () => void;
 }

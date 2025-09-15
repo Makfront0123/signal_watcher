@@ -52,7 +52,7 @@ export default function WatchlistsPage() {
         <div className="grid gap-4">
           {watchlists.length === 0 && <p>No hay watchlists</p>}
           {watchlists.map((wl) => (
-            <WatchlistCard id={wl.id} key={wl.id} name={wl.name}/>
+            <WatchlistCard id={wl.id} key={wl.id} name={wl.name} terms={wl.terms} />
           ))}
         </div>
       </section>
