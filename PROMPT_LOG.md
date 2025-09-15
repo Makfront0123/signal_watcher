@@ -1,21 +1,43 @@
-# PROMPT_LOG
-
-Historial resumido de interacciones con la IA (modo mock).
+# Historial de clasificación de eventos por IA
 
 ## Evento 1
-- **Input:** "Nuevo dominio sospechoso detectado"
-- **Resumen IA:** "Resumen simulado del evento: 'Nuevo dominio sospechoso detectado'"
-- **Severidad:** HIGH
-- **Sugerencia:** "Investigar de inmediato"
+**Descripción:** Servidor principal caído en us-east-1  
+**IA debería devolver:**  
+- severity: CRITICAL  
+- suggestion: Escalar inmediatamente al equipo de soporte
 
 ## Evento 2
-- **Input:** "Marca registrada mencionada en foro"
-- **Resumen IA:** "Resumen simulado del evento: 'Marca registrada mencionada en foro'"
-- **Severidad:** MED
-- **Sugerencia:** "Revisar manualmente"
+**Descripción:** Error 500 en endpoint /api/watchlists  
+**IA debería devolver:**  
+- severity: HIGH  
+- suggestion: Investigar de inmediato
 
 ## Evento 3
-- **Input:** "Posible actividad inusual en sistema"
-- **Resumen IA:** "Resumen simulado del evento: 'Posible actividad inusual en sistema'"
-- **Severidad:** LOW
-- **Sugerencia:** "Monitorear"
+**Descripción:** Posible uso anormal de memoria detectado  
+**IA debería devolver:**  
+- severity: MED  
+- suggestion: Monitorear con más frecuencia
+
+## Evento 4
+**Descripción:** Watchlist creada correctamente por el usuario  
+**IA debería devolver:**  
+- severity: LOW  
+- suggestion: No requiere acción
+
+## Evento 5
+**Descripción:** Timeout en conexión a Redis  
+**IA debería devolver:**  
+- severity: HIGH  
+- suggestion: Investigar de inmediato
+
+## Evento 6
+**Descripción:** CPU al 95% en servidor secundario  
+**IA debería devolver:**  
+- severity: MED  
+- suggestion: Monitorear con más frecuencia
+
+## Evento 7
+**Descripción:** Evento registrado correctamente en la base de datos  
+**IA debería devolver:**  
+- severity: LOW  
+- suggestion: No requiere acción
