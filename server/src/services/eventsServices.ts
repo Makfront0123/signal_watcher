@@ -25,17 +25,20 @@ export const eventService = {
     return event;
   },
 
-  create: async (description: string, watchlistId: number) => {
+    create: async (description: string, watchlistId: number) => {
     const aiData = await classifyEventMock(description);
+
     const newEvent = await eventRepository.create({
       description,
       watchlistId,
-      severity: aiData.severity,
-      suggestion: aiData.suggestion,
+      severity: aiData.severity ?? "MED",
+      suggestion: aiData.suggestion ?? "Revisar manualmente",
     });
-    await redis.del("events:all");  
+
+    await redis.del("events:all");
     return newEvent;
   },
+
 
   update: async (id: number, data: Partial<{ description: string; severity: string; suggestion: string; watchlistId?: number }>) => {
     const updated = await eventRepository.update(id, data);
