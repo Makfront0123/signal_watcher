@@ -9,7 +9,12 @@ export const eventRepository = {
 
   create: (data: { description: string; watchlistId: number; severity: string; suggestion: string }) =>
     prisma.event.create({
-      data: data as Prisma.EventUncheckedCreateInput,
+      data: {
+        description: data.description,
+        watchlistId: data.watchlistId,
+        severity: data.severity,
+        suggestion: data.suggestion,
+      },
     }),
 
   update: (
