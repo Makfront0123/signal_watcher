@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { eventsService } from "@/app/services/eventService";
 import { watchlistService } from "@/app/services/watchlistService";
 import toast from "react-hot-toast";
- 
-interface Watchlist {
+ interface Watchlist {
   id: number;
   name: string;
 }
@@ -19,7 +18,7 @@ const EventForm = ({ onCreated }: { onCreated: () => void }) => {
       try {
         const data = await watchlistService.getAll();
         setWatchlists(data);
-        if (data.length > 0) setWatchlistId(data[0].id);  
+        if (data.length > 0) setWatchlistId(data[0].id);
       } catch {
         setError("Error al cargar watchlists");
       }
@@ -30,17 +29,14 @@ const EventForm = ({ onCreated }: { onCreated: () => void }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!watchlistId) return setError("Selecciona una watchlist");
+
     try {
       await eventsService.create({ description, watchlistId });
       toast.success("Evento creado correctamente");
       setDescription("");
       onCreated();
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error desconocido");
-      }
+      setError(err instanceof Error ? err.message : "Error desconocido");
     }
   };
 
