@@ -7,6 +7,7 @@ import Loading from "@/app/components/Loading";
 import Error from "@/app/components/Error";
 
 import { watchlistService } from "@/app/services/watchlistService";
+import { getErrorMessage } from "../lib/getErrorMessage";
 
 export default function WatchlistsPage() {
   const [watchlists, setWatchlists] = useState<Watchlist[]>([]);
@@ -18,9 +19,10 @@ export default function WatchlistsPage() {
       setLoading(true);
       const data = await watchlistService.getAll();
       setWatchlists(data);
-    } catch (err: any) {
-      setError(err.message || "Error al cargar las watchlists");
-    } finally {
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
+    }
+    {
       setLoading(false);
     }
   };
@@ -30,7 +32,7 @@ export default function WatchlistsPage() {
   }, []);
 
   const handleCreated = () => {
-    fetchWatchlists();  
+    fetchWatchlists();
   };
 
   if (loading) return <Loading />;
@@ -50,7 +52,7 @@ export default function WatchlistsPage() {
         <div className="grid gap-4">
           {watchlists.length === 0 && <p>No hay watchlists</p>}
           {watchlists.map((wl) => (
-            <WatchlistCard id={wl.id} key={wl.id} name={wl.name} terms={wl.terms} />
+            <WatchlistCard id={wl.id} key={wl.id} name={wl.name}/>
           ))}
         </div>
       </section>
