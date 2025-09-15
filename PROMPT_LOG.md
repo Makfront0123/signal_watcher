@@ -41,3 +41,15 @@
 **IA debería devolver:**  
 - severity: LOW  
 - suggestion: No requiere acción
+
+## Watchlist 1:
+Nombre: Seguridad
+Términos: ["caída", "crash", "fatal", "offline"]
+
+## Watchlist 2:
+Nombre: Rendimiento
+Términos: ["alto uso", "CPU", "memoria", "lento"]
+
+## Watchlist 3:
+Nombre: Errores comunes
+Términos: ["error", "fallo", "timeout", "500"]
