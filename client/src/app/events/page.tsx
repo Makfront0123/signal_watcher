@@ -8,14 +8,6 @@ import Error from "@/app/components/Error";
 import { eventsService } from "@/app/services/eventService";
 import { getErrorMessage } from "../lib/getErrorMessage";
 
-
-interface Event {
-  id: number;
-  description: string;
-  severity: string;
-  suggestion: string;
-}
-
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);

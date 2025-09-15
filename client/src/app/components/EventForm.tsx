@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 import { eventsService } from "@/app/services/eventService";
 import { watchlistService } from "@/app/services/watchlistService";
 import toast from "react-hot-toast";
- interface Watchlist {
-  id: number;
-  name: string;
-}
-
 const EventForm = ({ onCreated }: { onCreated: () => void }) => {
   const [description, setDescription] = useState("");
   const [watchlistId, setWatchlistId] = useState<number | undefined>(undefined);

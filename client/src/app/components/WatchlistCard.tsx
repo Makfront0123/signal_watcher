@@ -5,14 +5,6 @@ import { watchlistService } from "@/app/services/watchlistService";
 import { toast } from "react-hot-toast";
 import { getErrorMessage } from "../lib/getErrorMessage";
 
-interface WatchlistCardProps {
-  id: number;
-  name: string;
-  terms: string[];
-  onDeleted?: () => void;
-  onUpdated?: () => void;
-}
-
 const WatchlistCard: React.FC<WatchlistCardProps> = ({
   id,
   name,
