@@ -33,3 +33,12 @@ npm run dev
 cd server
 npx prisma migrate dev
 
+### Capturas de pantalla
+
+#### 1. Crear una lista de observación
+![Crear Watchlist](./screenshots/create_watchlist.png)
+
+#### 2. Crear un evento y clasificación por IA del evento
+![Crear Evento](./screenshots/create_event.png)
+
+ 
