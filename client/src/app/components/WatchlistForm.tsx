@@ -19,20 +19,25 @@ export default function WatchlistForm({ onCreated }: WatchlistFormProps) {
     setLoading(true);
 
     try {
-      
+
       const termsArray = terms.split(",").map((t) => t.trim()).filter(Boolean);
 
       await watchlistService.create({ name, terms: termsArray });
       toast.success("Watchlist creada correctamente");
 
-       
+
       setName("");
       setTerms("");
 
-       
+
       onCreated?.();
-    } catch (err: any) {
-      setError(err.message || "Error al crear la watchlist");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Error al crear la watchlist");
+      } else {
+        setError("Error desconocido al crear la watchlist");
+      }
+
     } finally {
       setLoading(false);
     }

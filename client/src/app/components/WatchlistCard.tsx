@@ -41,8 +41,13 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
       toast.success("Watchlist actualizada correctamente");
       onUpdated?.();
       setIsEditing(false);
-    } catch (err: any) {
-      toast.error("Error al actualizar: " + err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error("Error al actualizar: " + err.message);
+      } else {
+        toast.error("Error desconocido al actualizar");
+      }
+
     }
   };
 

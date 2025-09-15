@@ -6,6 +6,15 @@ import EventCard from "@/app/components/EventCard";
 import Loading from "@/app/components/Loading";
 import Error from "@/app/components/Error";
 import { eventsService } from "@/app/services/eventService";
+import { getErrorMessage } from "../lib/getErrorMessage";
+
+
+interface Event {
+  id: number;
+  description: string;
+  severity: string;
+  suggestion: string;
+}
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -17,8 +26,8 @@ export default function EventsPage() {
       setLoading(true);
       const data = await eventsService.getAll();
       setEvents(data);
-    } catch (err: any) {
-      setError(err.message || "Error al cargar los eventos");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -29,7 +38,7 @@ export default function EventsPage() {
   }, []);
 
   const handleCreated = () => {
-    fetchEvents();  
+    fetchEvents();
   };
 
   if (loading) return <Loading />;
@@ -55,6 +64,8 @@ export default function EventsPage() {
               description={event.description}
               severity={event.severity}
               suggestion={event.suggestion}
+              onUpdated={fetchEvents}
+              onDeleted={fetchEvents}
             />
           ))}
         </div>

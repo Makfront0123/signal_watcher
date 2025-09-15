@@ -17,25 +17,34 @@ const EventCard: React.FC<EventCardProps> = ({
   const [sug, setSug] = useState(suggestion);
 
   const handleDelete = async () => {
-    if (!confirm("¿Seguro que quieres eliminar este evento?")) return;
-    try {
-      await eventsService.delete(id);
-      onDeleted?.();
-    } catch (err: any) {
+  if (!confirm("¿Seguro que quieres eliminar este evento?")) return;
+  try {
+    await eventsService.delete(id);
+    onDeleted?.();
+  } catch (err: unknown) {
+    if (err instanceof Error) {
       alert("Error al eliminar: " + err.message);
+    } else {
+      alert("Error desconocido al eliminar");
     }
-  };
+  }
+};
 
-  const handleSave = async () => {
-    try {
-      await eventsService.update(id, { description: desc, severity: sev, suggestion: sug });
-      onUpdated?.();
-      toast.success("Evento actualizado correctamente");
-      setIsEditing(false);
-    } catch (err: any) {
+const handleSave = async () => {
+  try {
+    await eventsService.update(id, { description: desc, severity: sev, suggestion: sug });
+    onUpdated?.();
+    toast.success("Evento actualizado correctamente");
+    setIsEditing(false);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
       alert("Error al actualizar: " + err.message);
+    } else {
+      alert("Error desconocido al actualizar");
     }
-  };
+  }
+};
+
 
   return (
     <div className="p-4 border rounded shadow flex flex-col gap-2">

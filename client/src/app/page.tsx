@@ -9,6 +9,7 @@ import Error from "@/app/components/Error";
 import { eventsService } from "@/app/services/eventService";
 import { watchlistService } from "@/app/services/watchlistService";
 import Link from "next/link";
+import { getErrorMessage } from "./lib/getErrorMessage";
 
 const ITEMS_PER_PAGE = 2;
 
@@ -30,8 +31,9 @@ export default function Home() {
       ]);
       setEvents(eventsData);
       setWatchlists(watchlistsData);
-    } catch (err: any) {
-      setError(err.message || "Error al cargar los datos");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
+
     } finally {
       setLoading(false);
     }
@@ -60,7 +62,7 @@ export default function Home() {
     <div className="p-8 max-w-4xl mx-auto space-y-8">
       <h1 className="text-2xl font-bold">Signal Watcher</h1>
 
- 
+
       <section>
         <h2 className="text-xl font-semibold mb-2 flex justify-between items-center">
           Eventos Recientes
@@ -80,7 +82,7 @@ export default function Home() {
           {paginatedEvents.length === 0 && <p>No hay eventos</p>}
         </div>
 
-    
+
         <div className="flex gap-2 mt-2">
           <button
             disabled={eventPage === 1}
@@ -100,7 +102,7 @@ export default function Home() {
         </div>
       </section>
 
- 
+
       <section>
         <h2 className="text-xl font-semibold mb-2 flex justify-between items-center">
           Watchlists
@@ -114,7 +116,7 @@ export default function Home() {
           {paginatedWatchlists.length === 0 && <p>No hay watchlists</p>}
         </div>
 
- 
+
         <div className="flex gap-2 mt-2">
           <button
             disabled={watchlistPage === 1}
